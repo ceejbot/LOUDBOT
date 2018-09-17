@@ -104,17 +104,15 @@ const LOUDBOT = module.exports = class LOUDBOT
 		const PROMPT = (INCOMING.event === 'update') ? INCOMING.data : INCOMING.data.status;
 		if (!PROMPT) return;
 
-		// PUBLIC LOUDIE NOTICES ALL YELLING...
-		if (THIS.WAS_IT_YELLING(PROMPT)) return;
+		// LOUDIE DECLINES TO RESPOND TO CERTAIN MESSAGES IF NOT MENTIONED
+		if (INCOMING.data.type !== 'mention' && THIS.REPORT(PROMPT)) return;
 
 		if (THIS.FUCK_SOMETHING_UP(PROMPT)) return;
 
-		// BUT DECLINES TO RESPOND TO CERTAIN MESSAGES IF NOT MENTIONED
-		if (INCOMING.data.type !== 'mention') return;
+		if (INCOMING.data.type !== 'mention' && THIS.HANDLE_SPECIALS(PROMPT)) return;
 
-		if (THIS.REPORT(PROMPT)) return;
-
-		if (THIS.HANDLE_SPECIALS(PROMPT)) return;
+		// PUBLIC LOUDIE NOTICES ALL YELLING
+		if (THIS.WAS_IT_YELLING(PROMPT)) return;
 	}
 
 	async HANDLE_FOLLOWER(INCOMING)
@@ -159,7 +157,7 @@ const LOUDBOT = module.exports = class LOUDBOT
 
 		for (var I = 0; I < SWEARWORDS.length; I++)
 		{
-			if (MSG.match(SWEARWORDS[I]) && ROLL_D100(25))
+			if (MSG.match(SWEARWORDS[I]) && ROLL_D100(10))
 			{
 				THIS.MALCOLM_INVOCATIONS++;
 				LOG(`MALCOLM HAS BEEN INVOKED ${MSG}`);
@@ -216,6 +214,7 @@ const LOUDBOT = module.exports = class LOUDBOT
 
 	REMEMBER(LOUD)
 	{
+		LOUD = LOUD.replace('@LOUDBOT', '').trim();
 		const THIS = this;
 		WAITING.push(LOUD);
 		if (THIS.SAVING) return;
@@ -272,7 +271,7 @@ const LOUDBOT = module.exports = class LOUDBOT
 	REPORT(PROMPT)
 	{
 		if (!PROMPT.content.match(/LOUDBOT:?\s+REPORT/))
-			return;
+			return FALSE;
 
 		const THIS = this;
 		var LOUD = 'I HAVE YELLED ' + (THIS.COUNT === 1 ? 'ONCE.' : `${THIS.COUNT} TIMES.`);
