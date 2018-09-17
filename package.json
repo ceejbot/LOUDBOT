@@ -1,0 +1,34 @@
+{
+  "name": "loudbot-mastodon",
+  "description": "LOUDBOT FOR SLACK.COM CHAT",
+  "version": "0.4.1",
+  "author": "C J Silverio <ceejceej@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/npm/LOUDBOT/issues"
+  },
+  "dependencies": {
+    "cloudup-client": "~0.3.2",
+    "dotenv": "~6.0.0",
+    "flip": "~1.0.0",
+    "knuth-shuffle": "~1.0.8",
+    "markov-chains-text": "~1.0.0",
+    "mastodon-api": "~1.3.0",
+    "striptags": "~3.1.1"
+  },
+  "homepage": "https://github.com/npm/LOUDBOT",
+  "keywords": [
+    "LOUDBOT",
+    "slack"
+  ],
+  "license": "MIT",
+  "main": "LOUDBOT.js",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/npm/LOUDBOT.git"
+  },
+  "scripts": {
+    "start": "node LOUDBOT.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
