@@ -94,8 +94,6 @@ const LOUDBOT = module.exports = class LOUDBOT
 	{
 		const THIS = this;
 
-		LOG(`INCOMING: ${INCOMING.event} ${INCOMING.data.type}`);
-
 		// LOUDBOT FOLLOWS BACK AND UNFOLLOWS
 		if (INCOMING.event === 'notification' && INCOMING.data.type === 'follow')
 		{
@@ -103,8 +101,8 @@ const LOUDBOT = module.exports = class LOUDBOT
 			return;
 		}
 
-		if (!INCOMING.data || !INCOMING.data.status) return;
-		const PROMPT = INCOMING.data.status;
+		const PROMPT = (INCOMING.event === 'update') ? INCOMING.data : INCOMING.data.status;
+		if (!PROMPT) return;
 
 		// PUBLIC LOUDIE NOTICES ALL YELLING...
 		if (THIS.WAS_IT_YELLING(PROMPT)) return;
@@ -112,7 +110,6 @@ const LOUDBOT = module.exports = class LOUDBOT
 		if (THIS.FUCK_SOMETHING_UP(PROMPT)) return;
 
 		// BUT DECLINES TO RESPOND TO CERTAIN MESSAGES IF NOT MENTIONED
-		if (INCOMING.event !== 'notification') return;
 		if (INCOMING.data.type !== 'mention') return;
 
 		if (THIS.REPORT(PROMPT)) return;
