@@ -103,6 +103,7 @@ const LOUDBOT = module.exports = class LOUDBOT
 
 		const PROMPT = (INCOMING.event === 'update') ? INCOMING.data : INCOMING.data.status;
 		if (!PROMPT) return;
+		if (PROMPT.account.acct.match(/LOUDBOT/)) return; // I DON'T YELL AT MYSELF
 
 		// LOUDIE DECLINES TO RESPOND TO CERTAIN MESSAGES IF NOT MENTIONED
 		if (INCOMING.data.type !== 'mention' && THIS.REPORT(PROMPT)) return;
